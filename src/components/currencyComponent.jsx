@@ -130,6 +130,7 @@ let requestDecoded = () => {
          .then((response) => {
             console.log('Your xml file as string', response.data);
             console.log('convert.xml2js(response.data)',convert.xml2js(response.data,{compact:true}))
+            setCurrency(convert.xml2js(response.data,{compact:true}))
          });
     }
 
@@ -155,6 +156,25 @@ let requestDecoded = () => {
             <div>
                  <input value={output} onChange={e => setOutput(e.target.value)}/>
             </div>
+            <div>Select currency</div>
+            <select >
+            <option disabled>Select input currency</option>
+            { !currency ? <div></div>
+            : currency.ValCurs.Valute.map((v, index) =>                          
+                         <option name={v.CharCode._text} value={v.Value._text} key={index}>{v.CharCode._text}</option>        
+            )}
+            </select>
+
+            <select >
+
+            <option disabled>Select output currency</option>
+            { !currency ? <div></div>
+            : currency.ValCurs.Valute.map((v, index) =>                          
+                         <option name={v.CharCode._text} value={v.Value._text} key={index}>{v.CharCode._text}</option>        
+            )}
+            </select>
+
+            <div>Curency List</div>
             { !currency ? <div></div>
             : currency.ValCurs.Valute.map((v, index) => 
                 <div key={index}>
