@@ -16,7 +16,8 @@ export default function CurrencyComponent () {
     const [output,setOutput] = useState(0)
     const [selectedCurrency,setSelectedCurrency] = useState()
     const [russianRuble,setRussianRuble] = useState(1)
-
+    const [calculated,setCalculated] = useState(0)
+    const replaceComma = (str) => str.replace(/[^\d\.\-]/g, '.')
     const xml = currencyData
     const FETCH_URL = '/scripts/XML_daily.asp'
     const unblockCORS = 'https://cors-anywhere.herokuapp.com/'
@@ -27,6 +28,7 @@ export default function CurrencyComponent () {
     console.log('currency',currency)
     console.log('input',input)
     console.log('output',output)
+    console.log('calculated',calculated)
     // console.log('convert.xml2js(xml)',convert.xml2js(xml));
 
 // function transformWindows1251ToUTF8(response) {
@@ -143,6 +145,14 @@ let requestDecoded = () => {
         }
     }
 
+    const outputCurrencyCalculation = () => {
+        let inputValue = parseFloat(replaceComma(input))
+        let outputValue = parseFloat(replaceComma(output))
+        // console.log('e',e)
+        let calculation = (russianRuble / inputValue ) * (inputValue  / outputValue)  
+        setCalculated(calculation.toFixed(2))
+    }
+
     return (
         <div>
             <h1>Currency convertor</h1>
@@ -163,6 +173,12 @@ let requestDecoded = () => {
                 <label>Output currency</label>
                  <input value={output} onChange={e => setOutput(e.target.value)}/>
             </div>
+            <div>
+            <button onClick={outputCurrencyCalculation}>Calculate</button>
+                <label>Converted calculation {calculated}</label>
+                
+                
+            </div>
             <div>Select currency</div>
             <select name="input" onChange={e => setInput(e.target.value)}>
         
@@ -174,7 +190,7 @@ let requestDecoded = () => {
             )}
             </select>
 
-            <select name="output" onChange={e => setOutput(e.target.value / 3)}>
+            <select name="output" onChange={e => setOutput(e.target.value)}>
             <option disabled>Select output currency</option>
             { !currency ? <div></div>
             : currency.ValCurs.Valute.map((v, index) =>                          
