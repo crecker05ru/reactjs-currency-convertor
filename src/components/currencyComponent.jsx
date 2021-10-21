@@ -12,11 +12,10 @@ export default function CurrencyComponent () {
     // var headers = XMLHttpRequest.getAllResponseHeaders()
     request.open("GET", currencyData, false);
     const [currency,setCurrency] = useState()
-    const [input,setInput] = useState()
-    const [output,setOutput] = useState()
+    const [input,setInput] = useState(0)
+    const [output,setOutput] = useState(0)
     const [selectedCurrency,setSelectedCurrency] = useState()
     const [russianRuble,setRussianRuble] = useState(1)
-
 
     const xml = currencyData
     const FETCH_URL = '/scripts/XML_daily.asp'
@@ -26,6 +25,8 @@ export default function CurrencyComponent () {
     console.log('currencyData',currencyData)
     console.log('xml',xml)
     console.log('currency',currency)
+    console.log('input',input)
+    console.log('output',output)
     // console.log('convert.xml2js(xml)',convert.xml2js(xml));
 
 // function transformWindows1251ToUTF8(response) {
@@ -151,26 +152,33 @@ let requestDecoded = () => {
             <button onClick={fetchLocalXMLHttp}>Fetch local currency with XMLHttpRequest</button>
             <button onClick={requestDecoded}>Fetch Decoded</button>
             <div>
+                <label>Input currency</label>
                  <input value={input} onChange={e => setInput(e.target.value)}/>
             </div>
             <div>
+                <label>Rubles amount</label>
+                 <input value={russianRuble} onChange={e => setRussianRuble(e.target.value)}/>
+            </div>
+            <div>
+                <label>Output currency</label>
                  <input value={output} onChange={e => setOutput(e.target.value)}/>
             </div>
             <div>Select currency</div>
-            <select >
+            <select name="input" onChange={e => setInput(e.target.value)}>
+        
             <option disabled>Select input currency</option>
             { !currency ? <div></div>
             : currency.ValCurs.Valute.map((v, index) =>                          
-                         <option name={v.CharCode._text} value={v.Value._text} key={index}>{v.CharCode._text}</option>        
+                         <option name={v.CharCode._text} value={v.Value._text} key={index} >{v.CharCode._text} </option>       
+                         
             )}
             </select>
 
-            <select >
-
+            <select name="output" onChange={e => setOutput(e.target.value / 3)}>
             <option disabled>Select output currency</option>
             { !currency ? <div></div>
             : currency.ValCurs.Valute.map((v, index) =>                          
-                         <option name={v.CharCode._text} value={v.Value._text} key={index}>{v.CharCode._text}</option>        
+                         <option name={v.CharCode._text} value={v.Value._text} key={index} >{v.CharCode._text}</option>        
             )}
             </select>
 
