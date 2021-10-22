@@ -7,12 +7,6 @@ Installation:
 4. npm run start
 5. Press 'Fetch local currency with XMLHttpRequest' button to work with local currency
 
-Installation:
-1. git clone <url of this repository>
-2. npm init
-3. check setted proxy in package.json,they must be same as base of fetching url
-4. npm run start
-  
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
