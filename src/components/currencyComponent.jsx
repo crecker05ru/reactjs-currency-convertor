@@ -17,6 +17,7 @@ export default function CurrencyComponent () {
     const [selectedCurrency,setSelectedCurrency] = useState()
     const [russianRuble,setRussianRuble] = useState(0)
     const [calculated,setCalculated] = useState(0)
+    const strToFloat = str => parseFloat(str.toString().replace(',','.'))
     const replaceComma = (str) => str.replace(/[^\d\.\-]/g, '.')
     const xml = currencyData
     const FETCH_URL = '/scripts/XML_daily.asp'
@@ -151,8 +152,11 @@ let requestDecoded = () => {
             setRussianRuble(e.target.value)
         }
 
-        let inputValue = parseFloat(replaceComma(input))
-        let outputValue = parseFloat(replaceComma(output))
+        // let inputValue = parseFloat(replaceComma(input))
+        // let outputValue = parseFloat(replaceComma(output))
+
+        let inputValue = strToFloat(input)
+        let outputValue = strToFloat(output)
 
         let inputOutputCoefficient = (inputValue  / outputValue) 
         let calculation = (russianRuble / inputValue ) * inputOutputCoefficient  
