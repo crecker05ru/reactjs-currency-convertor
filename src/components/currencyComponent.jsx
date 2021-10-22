@@ -15,7 +15,7 @@ export default function CurrencyComponent () {
     const [input,setInput] = useState(0)
     const [output,setOutput] = useState(0)
     const [selectedCurrency,setSelectedCurrency] = useState()
-    const [russianRuble,setRussianRuble] = useState(1)
+    const [russianRuble,setRussianRuble] = useState(0)
     const [calculated,setCalculated] = useState(0)
     const replaceComma = (str) => str.replace(/[^\d\.\-]/g, '.')
     const xml = currencyData
@@ -145,12 +145,21 @@ let requestDecoded = () => {
         }
     }
 
-    const outputCurrencyCalculation = () => {
+    const outputCurrencyCalculation = (e) => {
+        console.log('e',e)
+        if(e.target.localName !== 'button'){
+            setRussianRuble(e.target.value)
+        }
+
         let inputValue = parseFloat(replaceComma(input))
         let outputValue = parseFloat(replaceComma(output))
-        // console.log('e',e)
-        let calculation = (russianRuble / inputValue ) * (inputValue  / outputValue)  
-        setCalculated(calculation.toFixed(2))
+
+        let inputOutputCoefficient = (inputValue  / outputValue) 
+        let calculation = (russianRuble / inputValue ) * inputOutputCoefficient  
+        console.log('inputOutputCoefficient',inputOutputCoefficient)
+        console.log('(russianRuble / inputValue )',(russianRuble / inputValue ))
+        console.log('calculation',calculation)
+        setCalculated(calculation.toFixed(4))
     }
 
     return (
@@ -167,14 +176,14 @@ let requestDecoded = () => {
             </div>
             <div>
                 <label>Rubles amount</label>
-                 <input value={russianRuble} onChange={e => setRussianRuble(e.target.value)}/>
+                 <input value={russianRuble} onChange={e => outputCurrencyCalculation(e)}  name="rublesInput"/>
             </div>
             <div>
                 <label>Output currency</label>
                  <input value={output} onChange={e => setOutput(e.target.value)}/>
             </div>
             <div>
-            <button onClick={outputCurrencyCalculation}>Calculate</button>
+            <button onClick={e => outputCurrencyCalculation(e)}>Calculate</button>
                 <label>Converted calculation {calculated}</label>
                 
                 
